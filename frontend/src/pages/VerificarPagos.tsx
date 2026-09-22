@@ -223,7 +223,8 @@ const VerificarPagos = () => {
                         <div className="p-6">
                             {pagoSeleccionado.comprobante_url?.match(/\.(jpg|jpeg|png|webp)$/i) ? (
                                 <img 
-                                    src={`http://localhost:4000${pagoSeleccionado.comprobante_url}`} 
+                                    src={`${import.meta.env.VITE_API_URL?.replace(/\/api$/, '')}${pagoSeleccionado.comprobante_url}`}
+
                                     alt="Comprobante" 
                                     className="w-full rounded-lg"
                                 />
@@ -232,7 +233,8 @@ const VerificarPagos = () => {
                                     <span className="text-5xl mb-4 block">📄</span>
                                     <p className="text-claro-texto2 mb-4">Este es un archivo PDF</p>
                                     <a 
-                                        href={`http://localhost:4000${pagoSeleccionado.comprobante_url}`}
+                                        href={`${import.meta.env.VITE_API_URL?.replace(/\/api$/, '')}${pagoSeleccionado.comprobante_url}`}
+
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="px-6 py-3 bg-claro-primario text-white rounded-lg hover:bg-claro-hover transition-colors inline-block"
