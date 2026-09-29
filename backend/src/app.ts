@@ -40,9 +40,10 @@ export const app: Application = express();
 // ============================================================================
 
 // CORS
+
 app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+  origin: 'https://canchas-deportivas-sigma.vercel.app',
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
