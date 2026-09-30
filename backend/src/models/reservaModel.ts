@@ -43,15 +43,25 @@ export const ReservaModel = {
 
     obtenerPorCliente: async (id_cliente: number) => {
         const query = `
-            SELECT r.*, c.nombre as cancha_nombre, c.disciplina, c.precio_hora
+            SELECT 
+                r.*,
+                c.nombre AS cancha_nombre,
+                c.disciplina,
+                c.precio_hora,
+                p.estado AS estado_pago,
+                p.id_pago,
+                p.metodo_pago,
+                p.monto AS monto_pago
             FROM reserva r
             JOIN cancha c ON r.id_cancha = c.id_cancha
+            LEFT JOIN pago p ON r.id_reserva = p.id_reserva
             WHERE r.id_cliente = $1
             ORDER BY r.fecha_reserva DESC, r.hora_inicio DESC;
         `;
         const result = await pool.query(query, [id_cliente]);
         return result.rows;
     },
+
 
     obtenerTodas: async (filtros?: any) => {
         let query = `
