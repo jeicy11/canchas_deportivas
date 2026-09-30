@@ -44,6 +44,12 @@ export const PagoModel = {
         const result = await pool.query(query, [id_reserva]);
         return result.rows[0];
     },
+//SE AÑADIO PARA ACEPTAR PAGO
+    obtenerPorId: async (id_pago: number) => {
+      const query = `SELECT * FROM pago WHERE id_pago = $1`;
+      const result = await pool.query(query, [id_pago]);
+      return result.rows[0];
+    },
 
     actualizarComprobante: async (id_pago: number, comprobante_url: string) => {
         const query = `
