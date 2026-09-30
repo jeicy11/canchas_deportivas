@@ -72,6 +72,9 @@ const PagoDemo = ({ reserva, onClose, onComplete }: PagoDemoProps) => {
                 referencia_pasarela: referencia || undefined,
                 detalles
             });
+
+             console.log('RESPUESTA COMPLETA DEL PAGO:', response);
+             console.log('DATOS DEL PAGO:', response.data);
             
          if (response.data.estado === 'pagado') {
             setMensaje(
