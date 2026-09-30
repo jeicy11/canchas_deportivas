@@ -95,7 +95,10 @@ const PagoDemo = ({ reserva, onClose, onComplete }: PagoDemoProps) => {
             await cargarHistorial();
             onComplete();
         } catch (err: any) {
+
+            console.log('ERROR COMPLETO DEL PAGO:', err.response?.data);
             setError(err.response?.data?.error || 'No se pudo procesar el pago');
+            
         } finally {
             setCargando(false);
         }
