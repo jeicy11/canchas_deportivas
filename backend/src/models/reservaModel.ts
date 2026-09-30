@@ -16,7 +16,7 @@ export const ReservaModel = {
             data.id_cliente,
             data.id_cancha,
             data.id_empleado || null,
-            data.estado || 'pendiente',
+            data.estado || 'pendiente_pago',
             data.observaciones || null
         ];
 
