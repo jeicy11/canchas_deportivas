@@ -76,7 +76,7 @@ export const PagoController = {
             if (metodo_pago === 'presencial') {
                 await ReservaModel.actualizarEstado(Number(id_reserva), 'confirmada');
             } else {
-                await ReservaModel.actualizarEstado(Number(id_reserva), 'pendiente_verificacion');
+                await ReservaModel.actualizarEstado(Number(id_reserva), 'pendiente_pago');
             }
 
 
