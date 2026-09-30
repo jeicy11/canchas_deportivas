@@ -69,20 +69,23 @@ const MisReservas = () => {
                                     <td className="p-3">{new Date(r.fecha_reserva).toLocaleDateString()}</td>
                                     <td className="p-3">{r.hora_inicio} - {r.hora_fin}</td>
                                     <td className="p-3">
+                                        
                                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                            r.estado === 'confirmada' ? 'bg-green-100 text-green-700' :
-                                            r.estado === 'pendiente' || r.estado === 'pendiente_pago' ? 'bg-yellow-100 text-yellow-700' :
-                                            'bg-red-100 text-red-700'
+                                            r.estado_pago === 'pagado' || r.estado === 'confirmada'
+                                                ? 'bg-green-100 text-green-700'
+                                                : r.estado === 'pendiente' || r.estado === 'pendiente_pago'
+                                                    ? 'bg-yellow-100 text-yellow-700'
+                                                    : 'bg-red-100 text-red-700'
                                         }`}>
-                                            
                                             {r.estado_pago === 'pagado'
                                                 ? 'Confirmada'
                                                 : r.estado === 'pendiente_pago'
                                                     ? 'Pendiente de Pago'
                                                     : r.estado}
+                                        </span>
+
 
                                         
-                                        </span>
                                     </td>
                                     <td className="p-3">
                                         <div className="flex gap-3 flex-wrap">
