@@ -72,6 +72,9 @@ const PagoDemo = ({ reserva, onClose, onComplete }: PagoDemoProps) => {
                 referencia_pasarela: referencia || undefined,
                 detalles
             });
+
+            console.log('RESPUESTA DEL PAGO:', response.data);
+
             setMensaje(response.data.estado === 'pagado'
                 ? `Pago aprobado. Comprobante: ${response.data.nro_comprobante}`
                 : 'Pago rechazado. Puedes intentarlo nuevamente sin crear otra reserva.');
