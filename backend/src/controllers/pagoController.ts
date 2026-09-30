@@ -233,38 +233,41 @@ export const PagoController = {
 
     // VERIFICAR PAGO
     verificarPago: async (req: Request, res: Response) => {
-          try {
-            const { id_pago } = req.params;
-            const { estado, motivo_rechazo } = req.body;
-        
-            if (!estado || !['pagado', 'rechazado'].includes(estado)) {
-              return res.status(400).json({ error: 'Estado inválido. Use "pagado" o "rechazado"' });
-            }
-        
-            // Buscar el pago por su propio id (antes se buscaba por id_reserva)
-            const pago = await PagoModel.obtenerPorId(Number(id_pago));
-            if (!pago) {
-              return res.status(404).json({ error: 'Pago no encontrado' });
-            }
-        
-            await PagoModel.verificarPago(Number(id_pago), estado, motivo_rechazo || null);
-        
-            if (estado === 'pagado') {
-              await ReservaModel.actualizarEstado(pago.id_reserva, 'confirmada');
-            } else {
-              await ReservaModel.actualizarEstado(pago.id_reserva, 'pendiente_pago');
-            }
-        
-            res.json({
-              success: true,
-              message: `Pago ${estado === 'pagado' ? 'aprobado y reserva confirmada' : 'rechazado'}`
-            });
-          } catch (error: any) {
-            console.error('Error en verificarPago:', error);
-            res.status(500).json({ error: error.message || 'Error al verificar pago' });
-          }
-        },
-
+      try {
+        const { id_pago } = req.params;
+        const { estado, motivo_rechazo } = req.body;
+    
+        if (!estado || !['pagado', 'rechazado'].includes(estado)) {
+          return res.status(400).json({ error: 'Estado inválido. Use "pagado" o "rechazado"' });
+        }
+    
+        const pago = await PagoModel.obtenerPorId(Number(id_pago));
+        if (!pago) {
+          return res.status(404).json({ error: 'Pago no encontrado' });
+        }
+    
+        // ⬇️ ESTE ES EL BLOQUE NUEVO (reemplaza el "await PagoModel.verificarPago(...)" simple)
+        const actualizado = await PagoModel.verificarPago(Number(id_pago), estado, motivo_rechazo || null);
+        if (!actualizado) {
+          return res.status(400).json({ error: 'No se puede verificar: el pago ya fue resuelto o la reserva fue cancelada' });
+        }
+        // ⬆️ FIN DEL BLOQUE NUEVO
+    
+        if (estado === 'pagado') {
+          await ReservaModel.actualizarEstado(pago.id_reserva, 'confirmada');
+        } else {
+          await ReservaModel.actualizarEstado(pago.id_reserva, 'pendiente_pago');
+        }
+    
+        res.json({
+          success: true,
+          message: `Pago ${estado === 'pagado' ? 'aprobado y reserva confirmada' : 'rechazado'}`
+        });
+      } catch (error: any) {
+        console.error('Error en verificarPago:', error);
+        res.status(500).json({ error: error.message || 'Error al verificar pago' });
+      }
+    },
 
 
     
