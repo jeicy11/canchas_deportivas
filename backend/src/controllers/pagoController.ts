@@ -159,6 +159,27 @@ export const PagoController = {
         }
     },
 
+
+    obtenerPagosReserva: async (req: Request, res: Response) => {
+        try {
+            const { id_reserva } = req.params;
+    
+            const pago = await PagoModel.obtenerPorReserva(Number(id_reserva));
+    
+            res.json({
+                success: true,
+                data: pago ? [pago] : []
+            });
+    
+        } catch (error: any) {
+            console.error('Error en obtenerPagosReserva:', error);
+            res.status(500).json({
+                error: 'Error al obtener los pagos de la reserva'
+            });
+        }
+    },
+
+
     subirComprobante: async (req: Request, res: Response) => {
         try {
             const { id_pago } = req.params;
