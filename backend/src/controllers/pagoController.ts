@@ -150,7 +150,7 @@ export const PagoController = {
             if (metodo_pago === 'presencial' || modoDemoActivo) {
                 await ReservaModel.actualizarEstado(Number(id_reserva), 'confirmada');
             } else {
-                await ReservaModel.actualizarEstado(Number(id_reserva), 'pendiente_pago');
+                await ReservaModel.actualizarEstado(Number(id_reserva), 'pendiente_verificacion');
             }
 
             res.status(201).json({
