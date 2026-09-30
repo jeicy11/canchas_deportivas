@@ -191,7 +191,8 @@ export const PagoController = {
 
             const comprobanteUrl = `/uploads/comprobantes/${req.file.filename}`;
 
-            const pago = await PagoModel.obtenerPorReserva(Number(id_pago));
+            //const pago = await PagoModel.obtenerPorReserva(Number(id_pago));
+            const pago = await PagoModel.obtenerPorId(Number(id_pago));
             if (!pago) {
                 return res.status(404).json({ error: 'Pago no encontrado' });
             }
