@@ -75,9 +75,20 @@ const PagoDemo = ({ reserva, onClose, onComplete }: PagoDemoProps) => {
 
             console.log('RESPUESTA DEL PAGO:', response.data);
 
-            setMensaje(response.data.estado === 'pagado'
-                ? `Pago aprobado. Comprobante: ${response.data.nro_comprobante}`
-                : 'Pago rechazado. Puedes intentarlo nuevamente sin crear otra reserva.');
+            if (response.data.estado === 'pagado') {
+                setMensaje(
+                    `Pago aprobado. Comprobante: ${response.data.nro_comprobante}`
+                );
+            } else if (response.data.estado === 'pendiente_verificacion') {
+                setMensaje(
+                    'Pago registrado correctamente. Está pendiente de verificación.'
+                );
+            } else if (response.data.estado === 'rechazado') {
+                setError(
+                    'Pago rechazado. Puedes intentarlo nuevamente sin crear otra reserva.'
+                );
+            }
+
             setTarjeta('');
             if (response.data.estado === 'pagado') limpiarAdicionalesReserva(reserva.id_reserva);
             await cargarHistorial();
