@@ -16,7 +16,7 @@ export const ReservaService = {
         }
 
         // 2. Definir estado inicial
-        const estadoInicial = data.canal_reserva === 'presencial' ? 'confirmada' : 'pendiente';
+        const estadoInicial = data.canal_reserva === 'presencial' ? 'confirmada' : 'pendiente_pago';
         console.log('🔍 [SERVICE] Estado inicial:', estadoInicial);
 
         // 3. Crear reserva
