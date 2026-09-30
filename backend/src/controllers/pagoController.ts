@@ -126,7 +126,9 @@ export const PagoController = {
             const monto = precioHora * horas;
 
             const tipoRegistro = metodo_pago === 'presencial' ? 'presencial' : 'online';
-            const modoDemoActivo = process.env.NODE_ENV !== 'production' && modo_demo === true;
+            const modoDemoActivo = modo_demo === true;
+
+            
             const estadoPago = metodo_pago === 'presencial' || modoDemoActivo ? 'pagado' : 'pendiente_verificacion';
 
             const pago = await PagoModel.crearPago({
@@ -147,9 +149,12 @@ export const PagoController = {
 
             res.status(201).json({
                 success: true,
-                message: metodo_pago === 'presencial' 
-                    ? 'Pago presencial registrado. Reserva confirmada.'
-                    : 'Comprobante enviado. Tu reserva está pendiente de verificación.',
+                
+                message: metodo_pago === 'presencial' || modoDemoActivo
+                ? 'Pago registrado correctamente. Reserva confirmada.'
+                : 'Comprobante enviado. Tu reserva está pendiente de verificación.',
+
+                
                 data: pago
             });
 
