@@ -72,9 +72,24 @@ const PagoDemo = ({ reserva, onClose, onComplete }: PagoDemoProps) => {
                 referencia_pasarela: referencia || undefined,
                 detalles
             });
-            setMensaje(response.data.estado === 'pagado'
-                ? `Pago aprobado. Comprobante: ${response.data.nro_comprobante}`
-                : 'Pago rechazado. Puedes intentarlo nuevamente sin crear otra reserva.');
+            
+         if (response.data.estado === 'pagado') {
+            setMensaje(
+                `Pago aprobado. Comprobante: ${response.data.nro_comprobante}`
+            );
+        } else if (response.data.estado === 'pendiente_verificacion') {
+            setMensaje(
+                'Pago registrado correctamente. Está pendiente de verificación.'
+            );
+        } else if (response.data.estado === 'rechazado') {
+            setError(
+                'Pago rechazado. Puedes intentarlo nuevamente sin crear otra reserva.'
+            );
+        } else {
+            setError(`Estado de pago inesperado: ${response.data.estado}`);
+        }
+
+            
             setTarjeta('');
             if (response.data.estado === 'pagado') limpiarAdicionalesReserva(reserva.id_reserva);
             await cargarHistorial();
