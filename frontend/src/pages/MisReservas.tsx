@@ -74,13 +74,21 @@ const MisReservas = () => {
                                             r.estado === 'pendiente' || r.estado === 'pendiente_pago' ? 'bg-yellow-100 text-yellow-700' :
                                             'bg-red-100 text-red-700'
                                         }`}>
-                                            {r.estado === 'pendiente_pago' ? 'Pendiente de Pago' : r.estado}
+                                            
+                                            {r.estado_pago === 'pagado'
+                                                ? 'Confirmada'
+                                                : r.estado === 'pendiente_pago'
+                                                    ? 'Pendiente de Pago'
+                                                    : r.estado}
+
+                                        
                                         </span>
                                     </td>
                                     <td className="p-3">
                                         <div className="flex gap-3 flex-wrap">
                                             {/* ✅ BOTÓN DE PAGAR - SIEMPRE VISIBLE (excepto canceladas) */}
-                                            {r.estado !== 'cancelada' && (
+                                            {r.estado !== 'cancelada' && r.estado_pago !== 'pagado' && (
+                                    
                                                 <button
                                                     onClick={() => setReservaPago({ ...r, detallesIniciales: obtenerAdicionalesReserva(r.id_reserva) })}
                                                     className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors shadow-sm"
