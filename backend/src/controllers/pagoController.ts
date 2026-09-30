@@ -55,6 +55,11 @@ export const PagoController = {
             }
 
             const tipoRegistro = metodo_pago === 'presencial' ? 'presencial' : 'online';
+
+            
+            
+            //  MENSSAJES
+            
             const estadoPago = metodo_pago === 'presencial' ? 'pagado' : 'pendiente_verificacion';
 
             const pago = await PagoModel.crearPago({
@@ -71,9 +76,12 @@ export const PagoController = {
             if (metodo_pago === 'presencial') {
                 await ReservaModel.actualizarEstado(Number(id_reserva), 'confirmada');
             } else {
-                await ReservaModel.actualizarEstado(Number(id_reserva), 'pendiente_pago');
+                await ReservaModel.actualizarEstado(Number(id_reserva), 'pendiente_verificacion');
             }
 
+
+
+            //DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
             res.status(201).json({
                 success: true,
                 message: metodo_pago === 'presencial' 
